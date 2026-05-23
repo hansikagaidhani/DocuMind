@@ -17,12 +17,16 @@ with st.sidebar:
     st.caption("Powered by LangChain · FAISS · HuggingFace")
     st.divider()
 
-    hf_token = st.text_input(
-        "🔑 HuggingFace API Token",
-        type="password",
-        value=os.getenv("HUGGINGFACEHUB_API_TOKEN", ""),
-        help="Get a free token at huggingface.co/settings/tokens",
-    )
+    _env_token = os.getenv("HUGGINGFACEHUB_API_TOKEN", "")
+    if _env_token:
+        hf_token = _env_token
+        st.success("🔑 API Token configured", icon="✅")
+    else:
+        hf_token = st.text_input(
+            "🔑 HuggingFace API Token",
+            type="password",
+            help="Get a free token at huggingface.co/settings/tokens",
+        )
 
     model_id = st.selectbox(
         "🤖 LLM Model",
